@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        performSyncHttpRequest();
-
+        getAddressList();
         //初始化地址数据
         initAddress();
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -65,69 +64,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAddressList() {
-        String url = "http://www.baidu.com";
+        String url = "http://192.168.0.115:56270/api/houseloans";
         HttpUtil.sendHttpRequest(url, new okhttp3.Callback() {
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "code==" + response.code());
-                    Log.d(TAG, "body().string()==" + response.body());
+            public void onFailure(Call call, IOException e) {
+                final String errorMMessage = e.getMessage();
+
+                if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+                    Log.d(TAG, "Main Thread");
+                } else {
+                    Log.d(TAG, "Not Main Thread");
                 }
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, errorMMessage);
+                        Toast.makeText(MainActivity.this, errorMMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
-            public void onFailure(Call call, IOException e) {
-                Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-            }
+            public void onResponse(Call call, final Response response) throws IOException {
+                if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+                    Log.d(TAG, "Main Thread");
+                } else {
+                    Log.d(TAG, "Not Main Thread");
+                }
 
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (response.isSuccessful()){
+                            try {
+                                Log.d(TAG, response.body().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        //Toast.makeText(MainActivity.this, String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
         });
     }
 
-
-    public void handleMessage(int msg) {
-        Looper.prepare();
-        switch (msg) {
-            case 200:
-                Toast.makeText(MainActivity.this, "SUCCESSFUL", Toast.LENGTH_SHORT).show();
-                break;
-            case 404:
-                Toast.makeText(MainActivity.this, "request failed", Toast.LENGTH_SHORT).show();
-                break;
-
-        }
-        Looper.loop();
-    }
-
-    private void performSyncHttpRequest() {
-        Runnable requestTask = new Runnable() {
-            @Override
-            public void run() {
-                int msg = 404;
-                try {
-                    OkHttpClient client = new OkHttpClient();
-
-                    Request request = new Request.Builder()
-                            .url("http://www.baidu.com")
-                            .build();
-                    Call call = client.newCall(request);
-                    // 1
-                    Response response = call.execute();
-
-                    if (!response.isSuccessful()) {
-                        msg = 200;
-                    } else {
-                        msg = 404;
-                    }
-                } catch (IOException ex) {
-                    msg = 404;
-                } finally {
-                    handleMessage(msg);
-                }
-            }
-        };
-
-        Thread requestThread = new Thread(requestTask);
-        requestThread.start();
-    }
 }

@@ -19,20 +19,20 @@
         >
 
         <TextView
-            android:id="@+id/Address_district"
+            android:id="@+id/address_district"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/Address_cellname"
+            android:id="@+id/address_cellname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textColor="#6bf" />
 
         <TextView
-            android:id="@+id/Address_building"
+            android:id="@+id/address_building"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"

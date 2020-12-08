@@ -24,9 +24,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 
         public ViewHolder(View view) {
             super(view);
-            addressDistrict = (TextView) view.findViewById(R.id.Address_district);
-            addressCellname = (TextView) view.findViewById(R.id.Address_cellname);
-            addressBuilding = (TextView) view.findViewById(R.id.Address_building);
+            addressDistrict = (TextView) view.findViewById(R.id.address_district);
+            addressCellname = (TextView) view.findViewById(R.id.address_cellname);
+            addressBuilding = (TextView) view.findViewById(R.id.address_building);
         }
     }
 
