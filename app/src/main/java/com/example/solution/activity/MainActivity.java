@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +15,8 @@ import com.example.solution.R;
 import com.example.solution.adapter.AddressAdapter;
 import com.example.solution.pojo.Address;
 import com.example.solution.util.HttpUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,20 +37,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getAddressList();
-        //初始化地址数据
-        initAddress();
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        AddressAdapter adapter = new AddressAdapter(addressList);
-        recyclerView.setAdapter(adapter);
+        //从后端获取地址数据
+        getAddressList(this);
+        //初始化本地地址数据（死数据）
+        //initAddress();
 
     }
 
     /**
-     * 请求后端Address数据
+     * 模拟Address数据
      */
     private void initAddress() {
         for (int i = 0; i < 2; i++) {
@@ -63,9 +62,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getAddressList() {
+    /**
+     * 获取后端传过来的json数据
+     */
+    private void getAddressList(Context context) {
         String url = "http://192.168.0.115:56270/api/houseloans";
-        HttpUtil.sendHttpRequest(url, new okhttp3.Callback() {
+        HttpUtil.sendHttpRequest(context, url, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 final String errorMMessage = e.getMessage();
@@ -87,19 +89,30 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-                    Log.d(TAG, "Main Thread");
-                } else {
-                    Log.d(TAG, "Not Main Thread");
-                }
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        //判断在主线程还是子线程
+                        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+                            Log.d(TAG, "Main Thread");
+                        } else {
+                            Log.d(TAG, "Not Main Thread");
+                        }
                         if (response.isSuccessful()){
                             try {
-                                Log.d(TAG, response.body().string());
-                            } catch (IOException e) {
+                                String responseData = response.body().string();
+                                Log.d("data", responseData);
+                                //解析
+                                parseJSONWithGSON(responseData);
+                                //加载列表
+                                RecyclerView recyclerView = findViewById(R.id.recycler_view);
+                                //需要context对象参数
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                                recyclerView.setLayoutManager(layoutManager);
+                                AddressAdapter adapter = new AddressAdapter(addressList);
+                                recyclerView.setAdapter(adapter);
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -111,6 +124,21 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    /**
+     * GSON解析json转化成bean数组
+     * @param jsonData
+     */
+    private void parseJSONWithGSON(String jsonData) {
+        Gson gson = new Gson();
+        addressList = gson.fromJson(jsonData, new TypeToken<List<Address>>(){}.getType());
+        for (Address ad : addressList) {
+            Log.d(TAG, "id is " + ad.getId());
+            Log.d(TAG, "district is " + ad.getDistrict());
+            Log.d(TAG, "cellname is " + ad.getCellname());
+            Log.d(TAG, "building is " + ad.getBuilding());
+        }
     }
 
 }
