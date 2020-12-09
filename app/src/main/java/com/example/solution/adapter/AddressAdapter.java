@@ -1,14 +1,19 @@
 package com.example.solution.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.solution.R;
+import com.example.solution.activity.MainActivity;
+import com.example.solution.activity.PreviewActivity;
 import com.example.solution.pojo.Address;
 
 import java.util.List;
@@ -16,29 +21,51 @@ import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
     private List<Address> mAddressList;
+    private OnClickMyRecyclerView mOnClickMyRecyclerView;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        View addressView;
         TextView addressDistrict;
         TextView addressCellname;
         TextView addressBuilding;
 
         public ViewHolder(View view) {
             super(view);
+            addressView = view;
             addressDistrict = (TextView) view.findViewById(R.id.address_district);
             addressCellname = (TextView) view.findViewById(R.id.address_cellname);
             addressBuilding = (TextView) view.findViewById(R.id.address_building);
         }
     }
 
-    public AddressAdapter(List<Address> addressList) {
-        mAddressList = addressList;
-    }
+//    public AddressAdapter(List<Address> addressList) {
+//        mAddressList = addressList;
+//    }
 
+
+    public void setmAddressList(List<Address> mAddressList) {
+        this.mAddressList = mAddressList;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.address_item, parent, false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
+        holder.addressView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                //回调给activity，让活动处理事件
+                mOnClickMyRecyclerView.myRecylerViewClick(position);
+
+//                Address address = mAddressList.get(position);
+//                Toast.makeText(v.getContext(), "This is "+ address.getCellname(), Toast.LENGTH_SHORT).show();
+//                //跳转到第二个活动界面
+//                Intent intent = new Intent(v.getContext(), PreviewActivity.class);
+//                intent.putExtra("position", position);
+//                v.getContext().startActivity(intent);
+            }
+        });
         return holder;
     }
 
@@ -53,5 +80,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     @Override
     public int getItemCount() {
         return mAddressList.size();
+    }
+
+    /**
+     * 注册函数
+     * @param onClickMyRecyclerView
+     */
+    public void setOnClickMyRecyclerView(OnClickMyRecyclerView onClickMyRecyclerView){
+        this.mOnClickMyRecyclerView = onClickMyRecyclerView;
     }
 }

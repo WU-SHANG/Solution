@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--
+        solid 填充
+        stroke 边框
+        corners 角
+        size 固定大小
+    -->
     <solid android:color="#ffffff" />
-    <stroke
-        android:width="0.01dp"
-        android:color="#bfbfbf" />
     <corners
         android:radius="10dp"
         />

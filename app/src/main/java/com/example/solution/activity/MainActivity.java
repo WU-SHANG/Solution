@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.solution.R;
 import com.example.solution.adapter.AddressAdapter;
+import com.example.solution.adapter.OnClickMyRecyclerView;
 import com.example.solution.pojo.Address;
 import com.example.solution.util.HttpUtil;
 import com.google.gson.Gson;
@@ -33,15 +35,33 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Address> addressList = new ArrayList<>();
 
+    RecyclerView recyclerView;
+
+    private AddressAdapter addressAdapter = new AddressAdapter();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //加载布局
+        recyclerView = findViewById(R.id.recycler_view);
         //从后端获取地址数据
         getAddressList(this);
         //初始化本地地址数据（死数据）
         //initAddress();
 
+        //注册适配器的点击事件
+        addressAdapter.setOnClickMyRecyclerView(new OnClickMyRecyclerView() {
+            @Override
+            public void myRecylerViewClick(int id) {
+                Address address = addressList.get(id);
+                Toast.makeText(MainActivity.this, "This is " + address.getCellname(), Toast.LENGTH_SHORT).show();
+                //跳转到第二个活动界面
+                Intent intent = new Intent(MainActivity.this, PreviewActivity.class);
+                intent.putExtra("position", id + 1);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -66,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
      * 获取后端传过来的json数据
      */
     private void getAddressList(Context context) {
-        String url = "http://192.168.0.115:56270/api/houseloans";
+        String url = "http://192.168.0.115:8000/api/houseloans";
         HttpUtil.sendHttpRequest(context, url, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -105,20 +125,20 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("data", responseData);
                                 //解析
                                 parseJSONWithGSON(responseData);
-                                //加载列表
-                                RecyclerView recyclerView = findViewById(R.id.recycler_view);
+
                                 //需要context对象参数
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                                 recyclerView.setLayoutManager(layoutManager);
-                                AddressAdapter adapter = new AddressAdapter(addressList);
-                                recyclerView.setAdapter(adapter);
+                                addressAdapter.setmAddressList(addressList);
+                                recyclerView.setAdapter(addressAdapter);
+                                addressAdapter.notifyDataSetChanged();
+
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                         }
-
-                        //Toast.makeText(MainActivity.this, String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
 
                     }
                 });

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_marginLeft="18dp"
+    android:layout_marginRight="18dp"
+    android:background="@drawable/item_bg">
+
+    <!--贷款明细-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/layout_height"
+        android:paddingLeft="@dimen/padding_left"
+        android:text="贷款明细"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold"
+        android:gravity="center_vertical"/>
+
+    <View android:layout_height="5px" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--贷款机构-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="贷款机构:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--贷款类型-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="贷款类型:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--产品优势-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="产品优势:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--贷款金额和年利率-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="贷款金额:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:text="年利率:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--贷款年限和授权年限-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="贷款年限:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:text="授权年限:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--还款方式-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="还款方式:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--月供金额-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="月供金额:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--年还本金-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="年还本金:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+    <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
+
+    <!--总支付利息-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:paddingLeft="@dimen/padding_left"
+            android:text="总支付利息:"
+            android:textSize="@dimen/text_size"
+            android:gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_height"
+            android:textSize="@dimen/text_size"
+            android:textColor="@color/blue"/>
+    </LinearLayout>
+
+</LinearLayout>

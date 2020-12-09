@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#aaa">
+    android:background="@color/gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,14 +29,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:textColor="#6bf" />
+            android:textColor="@color/blue" />
 
         <TextView
             android:id="@+id/address_building"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="#6bf" />
+            android:textColor="@color/blue" />
     </LinearLayout>
 
 

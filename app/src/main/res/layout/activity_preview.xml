@@ -4,74 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.PreviewActivity">
+    android:orientation="vertical"
+    tools:context=".activity.PreviewActivity"
+    android:background="@color/gray">
 
-    <LinearLayout
-        android:id="@+id/head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <include layout="@layout/preview_head"/>
 
-        <LinearLayout
-            android:id="@+id/head_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="15dp"
-            android:paddingLeft="30dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/item_bg">
-
-            <TextView
-                android:id="@+id/preview_district"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/preview_cellname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="#6bf" />
-            <TextView
-                android:id="@+id/preview_building"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#6bf" />
-            <TextView
-                android:id="@+id/preview_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="#6bf" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/head_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="评估总价"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="万元"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <include layout="@layout/preview_body"/>
 
 </LinearLayout>

@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Solution"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.PreviewActivity"></activity>
+        <activity android:name=".activity.PreviewActivity">
+            <intent-filter>
+                <action android:name="com.example.solution.ACTION_START"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
