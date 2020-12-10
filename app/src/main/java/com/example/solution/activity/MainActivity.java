@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
-import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void myRecylerViewClick(int id) {
                 Address address = addressList.get(id);
-                Toast.makeText(MainActivity.this, "This is " + address.getCellname(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "This is " + address.getCellname() +
+                        " id is " + id, Toast.LENGTH_SHORT).show();
                 //跳转到第二个活动界面
                 Intent intent = new Intent(MainActivity.this, PreviewActivity.class);
                 intent.putExtra("position", id + 1);
+                intent.putExtra("district", address.getDistrict());
+                intent.putExtra("cellname", address.getCellname());
                 startActivity(intent);
             }
         });
@@ -83,20 +83,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 获取后端传过来的json数据
+     * 获取后端传过来的第一个界面的地址列表json数据
      */
     private void getAddressList(Context context) {
-        String url = "http://192.168.0.115:8000/api/houseloans";
+        String url = "http://192.168.0.115:56270/api/Houseloans";
         HttpUtil.sendHttpRequest(context, url, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 final String errorMMessage = e.getMessage();
-
-                if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-                    Log.d(TAG, "Main Thread");
-                } else {
-                    Log.d(TAG, "Not Main Thread");
-                }
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -124,22 +118,20 @@ public class MainActivity extends AppCompatActivity {
                                 String responseData = response.body().string();
                                 Log.d("data", responseData);
                                 //解析
-                                parseJSONWithGSON(responseData);
+                                parseAddressJSON(responseData);
 
                                 //需要context对象参数
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(context);
                                 recyclerView.setLayoutManager(layoutManager);
                                 addressAdapter.setmAddressList(addressList);
                                 recyclerView.setAdapter(addressAdapter);
+                                //更改数据时通知主线程
                                 addressAdapter.notifyDataSetChanged();
-
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
                         }
-
                     }
                 });
             }
@@ -147,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * GSON解析json转化成bean数组
+     * GSON解析json转化成Address对象数组
      * @param jsonData
      */
-    private void parseJSONWithGSON(String jsonData) {
+    private void parseAddressJSON(String jsonData) {
         Gson gson = new Gson();
         addressList = gson.fromJson(jsonData, new TypeToken<List<Address>>(){}.getType());
         for (Address ad : addressList) {

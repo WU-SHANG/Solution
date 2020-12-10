@@ -22,7 +22,7 @@
 
     <!--贷款机构-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -34,8 +34,12 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_LoanAgency"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
+            android:text="你好世界hello world"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -44,7 +48,7 @@
 
     <!--贷款类型-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -56,8 +60,11 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_LoanType"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -66,7 +73,7 @@
 
     <!--产品优势-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -78,8 +85,11 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_ProductAdvantages"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -88,7 +98,7 @@
 
     <!--贷款金额和年利率-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -100,8 +110,12 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_LoanMoney"
+            android:gravity="center_vertical"
+            android:layout_width="200dp"
             android:layout_height="@dimen/layout_height"
+            android:paddingLeft="10dp"
+            android:text="265万元"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
         <TextView
@@ -109,12 +123,16 @@
             android:layout_height="@dimen/layout_height"
             android:text="年利率:"
             android:textSize="@dimen/text_size"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical" />
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_AnnualRate"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
+            android:text="3.8%"
             android:textSize="@dimen/text_size"
-            android:textColor="@color/blue"/>
+            android:textColor="@color/blue" />
     </LinearLayout>
 
     <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
@@ -133,28 +151,35 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_LoanLimit"
+            android:gravity="center_vertical"
+            android:layout_width="186dp"
             android:layout_height="@dimen/layout_height"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/layout_height"
-            android:text="授权年限:"
+            android:text="授信年限:"
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_CreditLimit"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:layout_marginLeft="9dp"
+            android:paddingRight="@dimen/padding_left"
+            android:text="30年"
             android:textSize="@dimen/text_size"
-            android:textColor="@color/blue"/>
+            android:textColor="@color/blue" />
     </LinearLayout>
 
     <View android:layout_height="@dimen/line_height" android:background="@color/gray" android:layout_width="wrap_content"/>
 
     <!--还款方式-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -166,8 +191,11 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_PaymentMethod"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -176,7 +204,7 @@
 
     <!--月供金额-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -188,8 +216,11 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_MonthSupply"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -198,7 +229,7 @@
 
     <!--年还本金-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -210,8 +241,11 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_Principal"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -220,7 +254,7 @@
 
     <!--总支付利息-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -232,8 +266,11 @@
             android:textSize="@dimen/text_size"
             android:gravity="center_vertical"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_Interesttotal"
+            android:gravity="center_vertical|right"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
+            android:paddingRight="@dimen/padding_left"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
