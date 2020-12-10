@@ -112,7 +112,7 @@
         <TextView
             android:id="@+id/tv_LoanMoney"
             android:gravity="center_vertical"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="@dimen/layout_height"
             android:paddingLeft="10dp"
             android:text="265万元"
@@ -139,7 +139,7 @@
 
     <!--贷款年限和授权年限-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -153,8 +153,9 @@
         <TextView
             android:id="@+id/tv_LoanLimit"
             android:gravity="center_vertical"
-            android:layout_width="186dp"
+            android:layout_width="136dp"
             android:layout_height="@dimen/layout_height"
+            android:paddingLeft="10dp"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
         <TextView
@@ -168,7 +169,6 @@
             android:gravity="center_vertical|right"
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
-            android:layout_marginLeft="9dp"
             android:paddingRight="@dimen/padding_left"
             android:text="30年"
             android:textSize="@dimen/text_size"

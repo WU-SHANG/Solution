@@ -17,7 +17,7 @@
 
     <solid android:color="@color/blue"/>
     <size
-        android:width="40dp"
-        android:height="40dp"/>
+        android:width="100dp"
+        android:height="100dp"/>
 
 </shape>

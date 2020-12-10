@@ -121,8 +121,8 @@ public class PreviewActivity extends AppCompatActivity {
                                 parseLoanLetterJSON(responseData);
 
                                 //解析出来的数据给界面赋值
-                                pre_area.setText(loanLetter.getArea());
-                                pre_price.setText(loanLetter.getEvaluationUnitPrice());
+                                pre_area.setText("面积：" + loanLetter.getArea() + "平米");
+                                pre_price.setText("评估单价：" + loanLetter.getEvaluationUnitPrice() + "元/平米");
                                 pre_total.setText(loanLetter.getEvaluationTotalPrice());
                                 tv_LoanAgency.setText(loanLetter.getLoanAgency());
                                 tv_LoanType.setText(loanLetter.getLoanType());
@@ -178,9 +178,9 @@ public class PreviewActivity extends AppCompatActivity {
 
                                 //解析出来的数据给界面赋值
                                 tv_PaymentMethod.setText(paymentMethod.getPaymentMethod());
-                                tv_MonthSupply.setText(paymentMethod.getMonthSupply());
-                                tv_Principal.setText(paymentMethod.getPrincipal());
-                                tv_Interesttotal.setText(paymentMethod.getInteresttotal());
+                                tv_MonthSupply.setText(paymentMethod.getMonthSupply() + "元");
+                                tv_Principal.setText(paymentMethod.getPrincipal() + "万元");
+                                tv_Interesttotal.setText(paymentMethod.getInteresttotal() + "元");
 
 
                             } catch (Exception e) {
