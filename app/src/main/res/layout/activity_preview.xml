@@ -8,8 +8,21 @@
     tools:context=".activity.PreviewActivity"
     android:background="@color/gray">
 
-    <include layout="@layout/preview_head"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <include layout="@layout/preview_body"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/preview_head"/>
+
+            <include layout="@layout/preview_body"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

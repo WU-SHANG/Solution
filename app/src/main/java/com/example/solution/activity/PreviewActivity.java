@@ -6,15 +6,19 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.solution.R;
+import com.example.solution.pojo.Compare;
 import com.example.solution.pojo.DatasBean;
 import com.example.solution.pojo.LoanLetter;
 import com.example.solution.pojo.PaymentMethod;
@@ -43,6 +47,10 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
      */
     private PaymentMethod paymentMethod = new PaymentMethod();
     /**
+     * 比较月供对象
+     */
+    private Compare compare = new Compare();
+    /**
      * 文字视图对象
      */
     private TextView pre_district;
@@ -61,6 +69,11 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     private TextView tv_MonthSupply;  //月供金额
     private TextView tv_Principal;  //年还本金
     private TextView tv_Interesttotal;  //总支付利息
+    private TextView tv_MonthSupply_cop;    //弹窗中月供金额
+    private TextView tv_Comparison; //弹窗中招行月供金额
+    private TextView tv_Difference; //月供差值
+    private TextView tv_dialog_title_left;  //弹窗中左边的标题
+    private TextView tv_dialog_title_right; //弹窗中右边的标题
 
     private List<DatasBean> datasBeanList = new ArrayList<DatasBean>(){};
     /**
@@ -95,6 +108,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         getPaymentMethodData(this, pos, type);
 
         tv_PaymentMethod.setOnClickListener(this);
+        tv_MonthSupply.setOnClickListener(this);
 
     }
 
@@ -108,7 +122,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onFailure(Call call, IOException e) {
                 final String errorMMessage = e.getMessage();
-
                 PreviewActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -128,7 +141,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                         if (response.isSuccessful()){
                             try {
                                 String responseData = response.body().string();
-                                Log.d("data", responseData);
+                                Log.d("LoanLetterData", responseData);
                                 //解析
                                 parseLoanLetterJSON(responseData);
 
@@ -164,7 +177,6 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onFailure(Call call, IOException e) {
                 final String errorMMessage = e.getMessage();
-
                 PreviewActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -184,7 +196,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                         if (response.isSuccessful()){
                             try {
                                 String responseData = response.body().string();
-                                Log.d("data", responseData);
+                                Log.d("PaymentMethodData", responseData);
                                 //解析
                                 parsePaymentMethodJSON(responseData);
 
@@ -194,6 +206,55 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                                 tv_Principal.setText(paymentMethod.getPrincipal() + "万元");
                                 tv_Interesttotal.setText(paymentMethod.getInteresttotal() + "元");
 
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 获取月供比较数据
+     */
+    private void getCompareData(Context context,int pos, int type) {
+        String url = "https://192.168.0.115:8000/api/GetComparison?id=" + pos + "&typeid=" + type;
+        HttpUtil.sendHttpRequest(context, url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                final String errorMMessage = e.getMessage();
+                PreviewActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, errorMMessage);
+                        Toast.makeText(PreviewActivity.this, errorMMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                PreviewActivity.this.runOnUiThread(new Runnable() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void run() {
+                        if (response.isSuccessful()){
+                            try {
+                                String responseData = response.body().string();
+                                Log.d("CompareData", responseData);
+                                //解析
+                                parseComparisonJSON(responseData);
+
+                                //解析出来的数据给界面赋值
+                                tv_dialog_title_left.setText("按20年" + paymentMethod);
+                                tv_dialog_title_right.setText("招行按20年" + paymentMethod);
+                                tv_MonthSupply_cop.setText(compare.getMonthSupply() + "");
+                                tv_Comparison.setText(compare.getComparison() + "");
+                                tv_Difference.setText(compare.getDifference() + "");
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -265,12 +326,27 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         Log.d(TAG, "月供金额： " + paymentMethod.getMonthSupply());
     }
 
+    /**
+     * GSON解析json转换成月供比较对象
+     * @param jsonData
+     */
+    private void parseComparisonJSON(String jsonData) {
+        Gson gson = new Gson();
+        compare = gson.fromJson(jsonData, Compare.class);
+        //验证一下解析是否成功
+        Log.d(TAG, "月供金额： " + compare.getMonthSupply());
+        Log.d(TAG, "按招行月供金额： " + compare.getComparison());
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_PaymentMethod:
                 setAddressSelectorPopup(v);
                 break;
+            case R.id.tv_MonthSupply:
+                showDialog();
+                getCompareData(v.getContext(), pos, type);
         }
     }
 
@@ -337,5 +413,32 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
         }
+    }
+
+    /**
+     * 显示弹窗
+     */
+    private void showDialog(){
+        View view= LayoutInflater.from(this).inflate(R.layout.dialog_layout,null,false);
+        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
+        //设置背景透明
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        ImageView btn = (ImageView) view.findViewById(R.id.dialog_btn); //关闭按钮
+        Log.d("Btn", String.valueOf(btn));
+        tv_MonthSupply_cop = findViewById(R.id.tv_MonthSupply_cop);
+        tv_Comparison = findViewById(R.id.tv_Comparison);
+        tv_Difference = findViewById(R.id.tv_Difference);
+        tv_dialog_title_left = findViewById(R.id.tv_dialog_title_left);
+        tv_dialog_title_right = findViewById(R.id.tv_dialog_title_right);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 }

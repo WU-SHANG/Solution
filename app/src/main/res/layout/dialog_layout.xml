@@ -25,6 +25,7 @@
                 android:paddingBottom="20dp">
 
                 <TextView
+                    android:id="@+id/tv_dialog_title_left"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -39,10 +40,11 @@
                     android:textColor="#FFFAFA" />
 
                 <TextView
+                    android:id="@+id/tv_MonthSupply_cop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="15781元"
+                    android:text="-----元"
                     android:textColor="#FFFAFA"
                     android:textSize="32sp" />
 
@@ -63,6 +65,7 @@
                 android:paddingBottom="20dp">
 
                 <TextView
+                    android:id="@+id/tv_dialog_title_right"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -77,10 +80,11 @@
                     android:textColor="#FFFAFA" />
 
                 <TextView
+                    android:id="@+id/tv_Comparison"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="16765元"
+                    android:text="-----元"
                     android:textColor="#FFFAFA"
                     android:textSize="32sp" />
 
@@ -106,9 +110,10 @@
                 android:text="两者月供差额" />
 
             <TextView
+                android:id="@+id/tv_Difference"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="984元"
+                android:text="---元"
                 android:textColor="#000000"
                 android:textSize="32sp" />
         </LinearLayout>

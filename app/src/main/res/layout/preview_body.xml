@@ -6,6 +6,7 @@
     android:layout_marginTop="15dp"
     android:layout_marginLeft="18dp"
     android:layout_marginRight="18dp"
+    android:layout_marginBottom="20dp"
     android:background="@drawable/item_bg">
 
     <!--贷款明细-->
@@ -39,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
             android:paddingRight="@dimen/padding_left"
-            android:text="你好世界hello world"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
     </LinearLayout>
@@ -115,7 +115,6 @@
             android:layout_width="150dp"
             android:layout_height="@dimen/layout_height"
             android:paddingLeft="10dp"
-            android:text="265万元"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue"/>
         <TextView
@@ -130,7 +129,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
             android:paddingRight="@dimen/padding_left"
-            android:text="3.8%"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue" />
     </LinearLayout>
@@ -170,7 +168,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_height"
             android:paddingRight="@dimen/padding_left"
-            android:text="30年"
             android:textSize="@dimen/text_size"
             android:textColor="@color/blue" />
     </LinearLayout>

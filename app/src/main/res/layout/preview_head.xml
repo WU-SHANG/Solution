@@ -25,14 +25,14 @@
             android:id="@+id/pre_district"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="北京市-昌平区"
+            android:text="北京市-故宫"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/pre_cellname"
             android:layout_width="200dp"
             android:layout_height="36dp"
-            android:text="天通苑东苑二区"
+            android:text="天安门紫禁城"
             android:textColor="@color/blue"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -41,7 +41,7 @@
             android:id="@+id/pre_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="面积：100.00平方米"
+            android:text="面积："
             android:textColor="@color/blue"
             android:textSize="14sp" />
 
@@ -49,7 +49,7 @@
             android:id="@+id/pre_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="评估单价：37982元/平米"
+            android:text="评估单价："
             android:textColor="@color/blue"
             android:textSize="14sp" />
     </LinearLayout>
