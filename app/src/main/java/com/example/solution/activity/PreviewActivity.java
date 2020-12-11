@@ -1,26 +1,37 @@
 package com.example.solution.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.solution.R;
+import com.example.solution.pojo.DatasBean;
 import com.example.solution.pojo.LoanLetter;
 import com.example.solution.pojo.PaymentMethod;
+import com.example.solution.util.CommonPopWindow;
 import com.example.solution.util.HttpUtil;
+import com.example.solution.util.PickerScrollView;
 import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class PreviewActivity extends AppCompatActivity {
+public class PreviewActivity extends AppCompatActivity implements View.OnClickListener, CommonPopWindow.ViewClickListener {
 
     private static final String TAG = "PreviewActivity";
     /**
@@ -51,38 +62,39 @@ public class PreviewActivity extends AppCompatActivity {
     private TextView tv_Principal;  //年还本金
     private TextView tv_Interesttotal;  //总支付利息
 
+    private List<DatasBean> datasBeanList = new ArrayList<DatasBean>(){};
+    /**
+     * 还款方式String，还款方式int，int是否改变flag
+     */
+    private String repaymentType;
+    private int type;
+    private boolean flag;
+    private int pos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         //获取第一个界面传过来的值
-        int pos = getIntent().getIntExtra("position",-1);
+        pos = getIntent().getIntExtra("position",-1);
         String district = getIntent().getStringExtra("district");
         String cellname = getIntent().getStringExtra("cellname");
         Log.d(TAG, String.valueOf(pos));
-        //第一个界面的数据直接赋值
-        pre_district = findViewById(R.id.pre_district);
-        pre_district.setText(district);
-        pre_cellname = findViewById(R.id.pre_cellname);
-        pre_cellname.setText(cellname);
-        //绑定视图
-        pre_area = findViewById(R.id.pre_area);
-        pre_price = findViewById(R.id.pre_price);
-        pre_total = findViewById(R.id.pre_total);
-        tv_LoanAgency = findViewById(R.id.tv_LoanAgency);
-        tv_LoanType = findViewById(R.id.tv_LoanType);
-        tv_ProductAdvantages = findViewById(R.id.tv_ProductAdvantages);
-        tv_LoanMoney = findViewById(R.id.tv_LoanMoney);
-        tv_AnnualRate = findViewById(R.id.tv_AnnualRate);
-        tv_LoanLimit = findViewById(R.id.tv_LoanLimit);
-        tv_CreditLimit = findViewById(R.id.tv_CreditLimit);
-        tv_PaymentMethod = findViewById(R.id.tv_PaymentMethod);
-        tv_MonthSupply = findViewById(R.id.tv_MonthSupply);
-        tv_Principal = findViewById(R.id.tv_Principal);
-        tv_Interesttotal = findViewById(R.id.tv_Interesttotal);
 
+        //视图初始化
+        initView();
+
+        //第一个界面的数据直接赋值
+        pre_district.setText(district);
+        pre_cellname.setText(cellname);
+
+        initData();
+
+        //发送网络请求获取数据并显示
         getLoanLetterData(this, pos);
-        getPaymentMethodData(this, pos, 0);
+        getPaymentMethodData(this, pos, type);
+
+        tv_PaymentMethod.setOnClickListener(this);
 
     }
 
@@ -91,7 +103,7 @@ public class PreviewActivity extends AppCompatActivity {
      * @param context
      */
     private void getLoanLetterData(Context context, int pos) {
-        String url = "http://192.168.0.115:56270/api/HL_LoanLetter/" + pos;
+        String url = getResources().getString(R.string.url_release_loanLetter) + pos;
         HttpUtil.sendHttpRequest(context, url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -123,12 +135,12 @@ public class PreviewActivity extends AppCompatActivity {
                                 //解析出来的数据给界面赋值
                                 pre_area.setText("面积：" + loanLetter.getArea() + "平米");
                                 pre_price.setText("评估单价：" + loanLetter.getEvaluationUnitPrice() + "元/平米");
-                                pre_total.setText(loanLetter.getEvaluationTotalPrice());
+                                pre_total.setText(loanLetter.getEvaluationTotalPrice() + "");
                                 tv_LoanAgency.setText(loanLetter.getLoanAgency());
                                 tv_LoanType.setText(loanLetter.getLoanType());
                                 tv_ProductAdvantages.setText(loanLetter.getProductAdvantages());
-                                tv_LoanMoney.setText(loanLetter.getLoanMoney());
-                                tv_AnnualRate.setText(loanLetter.getAnnualRate());
+                                tv_LoanMoney.setText(loanLetter.getLoanMoney() + "");
+                                tv_AnnualRate.setText(loanLetter.getAnnualRate() + "");
                                 tv_LoanLimit.setText(loanLetter.getLoanLimit() + "年");
                                 tv_CreditLimit.setText(loanLetter.getCreditLimit() + "年");
 
@@ -147,7 +159,7 @@ public class PreviewActivity extends AppCompatActivity {
      * 获取还款方式数据
      */
     private void getPaymentMethodData(Context context,int pos, int type) {
-        String url = "http://192.168.0.115:56270/api/GetPaymentMethod?id=" + pos + "&typeid=" + type;
+        String url = "http://192.168.0.115:8000/api/GetPaymentMethod?id=" + pos + "&typeid=" + type;
         HttpUtil.sendHttpRequest(context, url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -194,6 +206,42 @@ public class PreviewActivity extends AppCompatActivity {
     }
 
     /**
+     * 视图初始化
+     */
+    private void initView() {
+        pre_district = findViewById(R.id.pre_district);
+        pre_cellname = findViewById(R.id.pre_cellname);
+        pre_area = findViewById(R.id.pre_area);
+        pre_price = findViewById(R.id.pre_price);
+        pre_total = findViewById(R.id.pre_total);
+        tv_LoanAgency = findViewById(R.id.tv_LoanAgency);
+        tv_LoanType = findViewById(R.id.tv_LoanType);
+        tv_ProductAdvantages = findViewById(R.id.tv_ProductAdvantages);
+        tv_LoanMoney = findViewById(R.id.tv_LoanMoney);
+        tv_AnnualRate = findViewById(R.id.tv_AnnualRate);
+        tv_LoanLimit = findViewById(R.id.tv_LoanLimit);
+        tv_CreditLimit = findViewById(R.id.tv_CreditLimit);
+        tv_PaymentMethod = findViewById(R.id.tv_PaymentMethod);
+        tv_MonthSupply = findViewById(R.id.tv_MonthSupply);
+        tv_Principal = findViewById(R.id.tv_Principal);
+        tv_Interesttotal = findViewById(R.id.tv_Interesttotal);
+    }
+
+    /**
+     * 滚动选择器数据初始化
+     */
+    private void initData() {
+        //这里就不模拟网络请求和GSON解析了，直接写死
+        DatasBean item1 = new DatasBean(0, "等额本息", "1");
+        DatasBean item2 = new DatasBean(1, "等额本金", "1");
+        datasBeanList.add(item1);
+        datasBeanList.add(item2);
+
+        type = 0;
+        flag = false;
+    }
+
+    /**
      * GSON解析json转换成批贷函对象
      * @param jsonData
      */
@@ -215,5 +263,79 @@ public class PreviewActivity extends AppCompatActivity {
         //验证一下解析是否成功
         Log.d(TAG, "还款方式： " + paymentMethod.getPaymentMethod());
         Log.d(TAG, "月供金额： " + paymentMethod.getMonthSupply());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_PaymentMethod:
+                setAddressSelectorPopup(v);
+                break;
+        }
+    }
+
+    /**
+     * 设置弹出的滚动选择器参数
+     * @param v
+     */
+    private void setAddressSelectorPopup(View v) {
+        int screenHeigh = getResources().getDisplayMetrics().heightPixels;
+
+        CommonPopWindow.newBuilder()
+                .setView(R.layout.pop_picker_selector_bottom)
+                .setAnimationStyle(R.style.AnimUp)
+                .setBackgroundDrawable(new BitmapDrawable())
+                .setSize(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(screenHeigh * 0.25f))
+                .setViewOnClickListener(this)
+                .setBackgroundDarkEnable(true)
+                .setBackgroundAlpha(0.7f)
+                .setBackgroundDrawable(new ColorDrawable(999999))
+                .build(this)
+                .showAsBottom(v);
+    }
+
+    /**
+     * 选择器内容设置和点击事件监听器
+     * @param mPopupWindow
+     * @param view
+     * @param mLayoutResId
+     */
+    @Override
+    public void getChildView(final PopupWindow mPopupWindow, View view, int mLayoutResId) {
+        switch (mLayoutResId) {
+            case R.layout.pop_picker_selector_bottom:
+                TextView imageBtn = view.findViewById(R.id.img_finish);
+                PickerScrollView addressSelector = view.findViewById(R.id.address);
+
+                // 设置数据，默认选择第一条
+                addressSelector.setData(datasBeanList);
+                addressSelector.setSelected(0);
+
+                addressSelector.setOnSelectListener(new PickerScrollView.onSelectListener() {
+                    @Override
+                    public void onSelect(DatasBean pickers) {
+                        repaymentType = pickers.getRepaymentType();
+                        int newType = pickers.getID();
+                        if (newType != type) {
+                            type = newType;
+                            flag = true;
+                        }
+                    }
+                });
+
+                imageBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPopupWindow.dismiss();
+                        if (flag) {
+                            tv_PaymentMethod.setText(repaymentType);
+                            getPaymentMethodData(PreviewActivity.this, pos, type);
+                            flag = false;
+                        }
+                    }
+                });
+
+                break;
+        }
     }
 }

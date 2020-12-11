@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.solution.pojo.GetConfigReq;
+import com.example.solution.pojo.DatasBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class PickerScrollView extends View {
      */
     public static final float SPEED = 2;
 
-    private List<GetConfigReq.DatasBean> mDataList;
+    private List<DatasBean> mDataList;
     /**
      * 选中的位置，这个位置是mDataList的中心位置，一直不变
      */
@@ -99,7 +99,7 @@ public class PickerScrollView extends View {
             mSelectListener.onSelect(mDataList.get(mCurrentSelected));
     }
 
-    public void setData(List<GetConfigReq.DatasBean> datas) {
+    public void setData(List<DatasBean> datas) {
         mDataList = datas;
         mCurrentSelected = datas.size() / 2;
         invalidate();
@@ -140,13 +140,13 @@ public class PickerScrollView extends View {
     }
 
     private void moveHeadToTail() {
-        GetConfigReq.DatasBean datasBean = mDataList.get(0);
+        DatasBean datasBean = mDataList.get(0);
         mDataList.remove(0);
         mDataList.add(datasBean);
     }
 
     private void moveTailToHead() {
-        GetConfigReq.DatasBean datasBean = mDataList.get(mDataList.size() - 1);
+        DatasBean datasBean = mDataList.get(mDataList.size() - 1);
         mDataList.remove(mDataList.size() - 1);
         mDataList.add(0, datasBean);
     }
@@ -193,7 +193,7 @@ public class PickerScrollView extends View {
         float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
 
         int indexs = mCurrentSelected;
-        String textData = mDataList.get(indexs).getCategoryName();
+        String textData = mDataList.get(indexs).getRepaymentType();
         canvas.drawText(textData, x, baseline, mPaint);
 
         // 绘制上方data  
@@ -223,7 +223,7 @@ public class PickerScrollView extends View {
         float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
 
         int indexs = mCurrentSelected + type * position;
-        String textData = mDataList.get(indexs).getCategoryName();
+        String textData = mDataList.get(indexs).getRepaymentType();
         canvas.drawText(textData, (float) (mViewWidth / 2.0), baseline, mPaint);
     }
 
@@ -310,6 +310,6 @@ public class PickerScrollView extends View {
     }
 
     public interface onSelectListener {
-        void onSelect(GetConfigReq.DatasBean pickers);
+        void onSelect(DatasBean pickers);
     }
 }  

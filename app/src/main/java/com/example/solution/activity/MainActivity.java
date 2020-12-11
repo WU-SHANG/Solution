@@ -1,15 +1,15 @@
 package com.example.solution.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.solution.R;
 import com.example.solution.adapter.AddressAdapter;
@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
             public void myRecylerViewClick(int id) {
                 Address address = addressList.get(id);
                 Toast.makeText(MainActivity.this, "This is " + address.getCellname() +
-                        " id is " + id, Toast.LENGTH_SHORT).show();
+                        " id is " + address.getId(), Toast.LENGTH_SHORT).show();
                 //跳转到第二个活动界面
                 Intent intent = new Intent(MainActivity.this, PreviewActivity.class);
-                intent.putExtra("position", id + 1);
+                intent.putExtra("position", address.getId());
                 intent.putExtra("district", address.getDistrict());
                 intent.putExtra("cellname", address.getCellname());
                 startActivity(intent);
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
      * 获取后端传过来的第一个界面的地址列表json数据
      */
     private void getAddressList(Context context) {
-        String url = "http://192.168.0.115:56270/api/Houseloans";
+        String url = getResources().getString(R.string.url_release_main);
         HttpUtil.sendHttpRequest(context, url, new okhttp3.Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

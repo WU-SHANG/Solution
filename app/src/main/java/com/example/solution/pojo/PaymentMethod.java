@@ -1,5 +1,7 @@
 package com.example.solution.pojo;
 
+import java.math.BigDecimal;
+
 public class PaymentMethod {
     /**
      * 还款方式
@@ -8,15 +10,15 @@ public class PaymentMethod {
     /**
      * 月供金额
      */
-    private String MonthSupply;
+    private BigDecimal MonthSupply;
     /**
      * 年还本金
      */
-    private String Principal;
+    private BigDecimal Principal;
     /**
      * 总支付利息
      */
-    private String Interesttotal;
+    private BigDecimal Interesttotal;
 
     public String getPaymentMethod() {
         return PaymentMethod;
@@ -26,27 +28,27 @@ public class PaymentMethod {
         PaymentMethod = paymentMethod;
     }
 
-    public String getMonthSupply() {
+    public BigDecimal getMonthSupply() {
         return MonthSupply;
     }
 
-    public void setMonthSupply(String monthSupply) {
+    public void setMonthSupply(BigDecimal monthSupply) {
         MonthSupply = monthSupply;
     }
 
-    public String getPrincipal() {
+    public BigDecimal getPrincipal() {
         return Principal;
     }
 
-    public void setPrincipal(String principal) {
+    public void setPrincipal(BigDecimal principal) {
         Principal = principal;
     }
 
-    public String getInteresttotal() {
+    public BigDecimal getInteresttotal() {
         return Interesttotal;
     }
 
-    public void setInteresttotal(String interesttotal) {
+    public void setInteresttotal(BigDecimal interesttotal) {
         Interesttotal = interesttotal;
     }
 }

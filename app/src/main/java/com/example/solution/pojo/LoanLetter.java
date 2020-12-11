@@ -1,18 +1,20 @@
 package com.example.solution.pojo;
 
+import java.math.BigDecimal;
+
 public class LoanLetter {
     /**
      * 面积
      */
-    private String Area;
+    private double Area;
     /**
      * 评估单价
      */
-    private String EvaluationUnitPrice;
+    private BigDecimal EvaluationUnitPrice;
     /**
      * 评估总价
      */
-    private String EvaluationTotalPrice;
+    private BigDecimal EvaluationTotalPrice;
 
     /**
      * 贷款机构
@@ -29,11 +31,11 @@ public class LoanLetter {
     /**
      * 贷款金额
      */
-    private String LoanMoney;
+    private int LoanMoney;
     /**
      * 年利率
      */
-    private String AnnualRate;
+    private double AnnualRate;
     /**
      * 贷款年限
      */
@@ -43,27 +45,27 @@ public class LoanLetter {
      */
     private int CreditLimit;
 
-    public String getArea() {
+    public double getArea() {
         return Area;
     }
 
-    public void setArea(String area) {
+    public void setArea(double area) {
         Area = area;
     }
 
-    public String getEvaluationUnitPrice() {
+    public BigDecimal getEvaluationUnitPrice() {
         return EvaluationUnitPrice;
     }
 
-    public void setEvaluationUnitPrice(String evaluationUnitPrice) {
+    public void setEvaluationUnitPrice(BigDecimal evaluationUnitPrice) {
         EvaluationUnitPrice = evaluationUnitPrice;
     }
 
-    public String getEvaluationTotalPrice() {
+    public BigDecimal getEvaluationTotalPrice() {
         return EvaluationTotalPrice;
     }
 
-    public void setEvaluationTotalPrice(String evaluationTotalPrice) {
+    public void setEvaluationTotalPrice(BigDecimal evaluationTotalPrice) {
         EvaluationTotalPrice = evaluationTotalPrice;
     }
 
@@ -91,19 +93,19 @@ public class LoanLetter {
         ProductAdvantages = productAdvantages;
     }
 
-    public String getLoanMoney() {
+    public int getLoanMoney() {
         return LoanMoney;
     }
 
-    public void setLoanMoney(String loanMoney) {
+    public void setLoanMoney(int loanMoney) {
         LoanMoney = loanMoney;
     }
 
-    public String getAnnualRate() {
+    public double getAnnualRate() {
         return AnnualRate;
     }
 
-    public void setAnnualRate(String annualRate) {
+    public void setAnnualRate(double annualRate) {
         AnnualRate = annualRate;
     }
 
