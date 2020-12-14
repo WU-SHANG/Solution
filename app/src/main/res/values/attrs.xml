@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="bubble">
+        <attr name="mshadowColor" format="color" />
+        <attr name="mpadding" format="dimension" />
+        <attr name="mstrokeWidth" format="float" />
+        <attr name="mcornerRadius" format="float" />
+        <attr name="mhalfBaseOfLeg" format="dimension" />
+    </declare-styleable>
+
+</resources>

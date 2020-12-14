@@ -67,6 +67,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
     private TextView tv_CreditLimit;  //授信年限
     private TextView tv_PaymentMethod;  //还款方式
     private TextView tv_MonthSupply;  //月供金额
+    private TextView img_compare;   //月供金额比较按钮
     private TextView tv_Principal;  //年还本金
     private TextView tv_Interesttotal;  //总支付利息
     private TextView tv_MonthSupply_cop;    //弹窗中月供金额
@@ -108,7 +109,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         getPaymentMethodData(this, pos, type);
 
         tv_PaymentMethod.setOnClickListener(this);
-        tv_MonthSupply.setOnClickListener(this);
+        img_compare.setOnClickListener(this);
 
     }
 
@@ -152,8 +153,8 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                                 tv_LoanAgency.setText(loanLetter.getLoanAgency());
                                 tv_LoanType.setText(loanLetter.getLoanType());
                                 tv_ProductAdvantages.setText(loanLetter.getProductAdvantages());
-                                tv_LoanMoney.setText(loanLetter.getLoanMoney() + "");
-                                tv_AnnualRate.setText(loanLetter.getAnnualRate() + "");
+                                tv_LoanMoney.setText(loanLetter.getLoanMoney() + "万元");
+                                tv_AnnualRate.setText(loanLetter.getAnnualRate() + "%");
                                 tv_LoanLimit.setText(loanLetter.getLoanLimit() + "年");
                                 tv_CreditLimit.setText(loanLetter.getCreditLimit() + "年");
 
@@ -172,7 +173,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
      * 获取还款方式数据
      */
     private void getPaymentMethodData(Context context,int pos, int type) {
-        String url = "http://192.168.0.115:8000/api/GetPaymentMethod?id=" + pos + "&typeid=" + type;
+        String url = "http://192.168.0.115:8000/api/paymentMethods?houseId=" + pos + "&typeId=" + type;
         HttpUtil.sendHttpRequest(context, url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -221,7 +222,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
      * 获取月供比较数据
      */
     private void getCompareData(Context context,int pos, int type) {
-        String url = "https://192.168.0.115:8000/api/GetComparison?id=" + pos + "&typeid=" + type;
+        String url = "http://192.168.0.115:8000/api/paymentMethodsComparisons?houseloanId=" + pos + "&typeId=" + type;
         HttpUtil.sendHttpRequest(context, url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -250,8 +251,8 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
                                 parseComparisonJSON(responseData);
 
                                 //解析出来的数据给界面赋值
-                                tv_dialog_title_left.setText("按20年" + paymentMethod);
-                                tv_dialog_title_right.setText("招行按20年" + paymentMethod);
+                                tv_dialog_title_left.setText("按20年" + paymentMethod.getPaymentMethod());
+                                tv_dialog_title_right.setText("招行按20年" + paymentMethod.getPaymentMethod());
                                 tv_MonthSupply_cop.setText(compare.getMonthSupply() + "");
                                 tv_Comparison.setText(compare.getComparison() + "");
                                 tv_Difference.setText(compare.getDifference() + "");
@@ -286,6 +287,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
         tv_MonthSupply = findViewById(R.id.tv_MonthSupply);
         tv_Principal = findViewById(R.id.tv_Principal);
         tv_Interesttotal = findViewById(R.id.tv_Interesttotal);
+        img_compare = findViewById(R.id.img_compare);
     }
 
     /**
@@ -344,7 +346,7 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.tv_PaymentMethod:
                 setAddressSelectorPopup(v);
                 break;
-            case R.id.tv_MonthSupply:
+            case R.id.img_compare:
                 showDialog();
                 getCompareData(v.getContext(), pos, type);
         }
@@ -426,11 +428,11 @@ public class PreviewActivity extends AppCompatActivity implements View.OnClickLi
 
         ImageView btn = (ImageView) view.findViewById(R.id.dialog_btn); //关闭按钮
         Log.d("Btn", String.valueOf(btn));
-        tv_MonthSupply_cop = findViewById(R.id.tv_MonthSupply_cop);
-        tv_Comparison = findViewById(R.id.tv_Comparison);
-        tv_Difference = findViewById(R.id.tv_Difference);
-        tv_dialog_title_left = findViewById(R.id.tv_dialog_title_left);
-        tv_dialog_title_right = findViewById(R.id.tv_dialog_title_right);
+        tv_MonthSupply_cop = view.findViewById(R.id.tv_MonthSupply_cop);
+        tv_Comparison = view.findViewById(R.id.tv_Comparison);
+        tv_Difference = view.findViewById(R.id.tv_Difference);
+        tv_dialog_title_left = view.findViewById(R.id.tv_dialog_title_left);
+        tv_dialog_title_right = view.findViewById(R.id.tv_dialog_title_right);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

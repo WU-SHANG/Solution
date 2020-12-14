@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,8 @@ import com.example.solution.R;
 import com.example.solution.adapter.AddressAdapter;
 import com.example.solution.adapter.OnClickMyRecyclerView;
 import com.example.solution.pojo.Address;
+import com.example.solution.util.BubblePopupWindow;
+import com.example.solution.util.BubbleRelativeLayout;
 import com.example.solution.util.HttpUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AddressAdapter addressAdapter = new AddressAdapter();
 
+    private BubblePopupWindow topWindow;
+
+    private BubbleRelativeLayout mBubbleView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         getAddressList(this);
         //初始化本地地址数据（死数据）
         //initAddress();
+
+        //上方气泡
+        topWindow = new BubblePopupWindow(MainActivity.this);
 
         //注册适配器的点击事件
         addressAdapter.setOnClickMyRecyclerView(new OnClickMyRecyclerView() {
@@ -61,7 +73,27 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("cellname", address.getCellname());
                 startActivity(intent);
             }
+
+            @Override
+            public void myRecylerViewLongClick(int pos, View view) {
+//                Address address = addressList.get(id);
+                View bubbleView = LayoutInflater.from(MainActivity.this).inflate(R.layout.layout_popup_view, null);
+                TextView tvContent = (TextView) bubbleView.findViewById(R.id.tvContent);
+                tvContent.setText("删除");
+                mBubbleView = topWindow.setBubbleView(bubbleView);
+                mBubbleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Log.d(TAG, "onClick: " + mBubbleView.getId());
+                        addressList.remove(pos);
+                        Toast.makeText(MainActivity.this, "Id is " + pos + "成功删除", Toast.LENGTH_SHORT).show();
+                        addressAdapter.notifyDataSetChanged();
+                    }
+                });
+                topWindow.show(view);
+            }
         });
+
     }
 
     /**

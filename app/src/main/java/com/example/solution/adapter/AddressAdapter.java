@@ -1,19 +1,13 @@
 package com.example.solution.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.solution.R;
-import com.example.solution.activity.MainActivity;
-import com.example.solution.activity.PreviewActivity;
 import com.example.solution.pojo.Address;
 
 import java.util.List;
@@ -66,6 +60,16 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
 //                v.getContext().startActivity(intent);
             }
         });
+
+        holder.addressView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = holder.getAdapterPosition();
+                mOnClickMyRecyclerView.myRecylerViewLongClick(position, v);
+                return true;
+            }
+        });
+
         return holder;
     }
 
